@@ -1,0 +1,173 @@
+//Task 4: HMI Skin Customization System 
+
+//Objective: Implement a system to manage different themes or skins for an HMI display. 
+
+//Requirements: 
+
+//Create a Theme class:  
+
+//Attributes: backgroundColor, fontColor, fontSize, and iconStyle. 
+
+//Implement methods to apply and display the theme. 
+
+//Store multiple themes using std::map:  
+
+//Example themes: Classic, Sport, and Eco. 
+
+//Create a simple user interface to switch between themes:  
+
+//Use console input to select a theme. 
+
+//Display a preview of the selected theme on the console (e.g., "Sport Theme: Red Background, White Font"). 
+
+//Deliverables: 
+
+//A C++ program that demonstrates theme switching. 
+
+//Output displaying applied themes. 
+
+ 
+
+//Sol:	 
+
+#include<bits/stdc++.h> 
+
+using namespace std; 
+
+  
+
+class Theme{ 
+
+    private: 
+
+        string backgroundColor; 
+
+        string fontColor; 
+
+        int fontSize; 
+
+        string iconStyle; 
+
+         
+
+    public: 
+
+         
+
+        Theme() : backgroundColor("White"), fontColor("Black"),fontSize(10),iconStyle("Bolder"){}; 
+
+        Theme(string bgcolor, string fncolor, int fntsize, string icnstyle):backgroundColor(bgcolor),fontColor(fncolor),fontSize(fntsize),iconStyle(icnstyle){}; 
+
+         
+
+         
+
+        void apply() 
+
+        { 
+
+           cout<<"Theme:\n" 
+
+               <<"Background Color: "<<backgroundColor<<"\n" 
+
+               <<"fontColor: "<<fontColor<<"\n" 
+
+               <<"fontSize: "<<fontSize<<"\n" 
+
+               <<"iconStyle: "<<iconStyle<<endl; 
+
+        } 
+
+}; 
+
+  
+
+int main() 
+
+{ 
+
+    Theme classic("Red","Black", 32, "Bold"); 
+
+    Theme sport("Green","Yellow",30,"Italic"); 
+
+    Theme eco("Blue","Orange",28,"Large"); 
+
+     
+
+    map<string,Theme> mp; 
+
+    mp["Classic"] = classic; 
+
+    mp["Sport"] = sport; 
+
+    mp["Eco"] = eco; 
+
+     
+
+    int opt; 
+
+    cout<<"Enter the theme to apply: \n" 
+
+        <<"1. for Classic\n" 
+
+        <<"2. for Sport\n" 
+
+        <<"3. for Eco\n" 
+
+        <<"4.Exit\n"; 
+
+    cin>>opt; 
+
+    switch(opt) 
+
+    { 
+
+        case 1: 
+
+            cout<<"You selected Classic Theme!..."; 
+
+            mp["Classic"].apply(); 
+
+            break; 
+
+             
+
+        case 2: 
+
+            cout<<"You selected Sport Theme!..."; 
+
+            mp["Sport"].apply(); 
+
+            break; 
+
+             
+
+        case 3: 
+
+            cout<<"You selected Eco Theme!..."; 
+
+            mp["Eco"].apply(); 
+
+            break; 
+
+ 
+
+        case 4: 
+
+            cout<<"Bye Bye...\n Exited!..."; 
+
+            break; 
+
+ 
+
+        default:  
+
+            cout<<"Invalid Option.\n Please choose correct option."; 
+
+            break; 
+
+    } 
+
+    return 0;  
+
+} 

@@ -1,0 +1,229 @@
+//Task 2: Simulate an Instrument Cluster Data Display 
+
+//Objective: Create a simplified data display system to simulate speed, fuel level, and engine temperature. 
+
+//Requirements: 
+
+//Implement a class-based design:  
+
+//Create a VehicleData class to store parameters like speed, fuel level, and engine temperature. 
+
+//Create a Display class to show these parameters on the console. 
+
+//Simulate real-time updates:  
+
+//Use a random number generator to update speed, fuel level, and temperature every second. 
+
+//Display the updated data in a formatted manner (e.g., speed: 80 km/h, fuel: 50%, temperature: 90°C). 
+
+//Add constraints:  
+
+//Display warnings when parameters exceed thresholds (e.g., temperature > 100°C or fuel < 10%). 
+
+//Deliverables: 
+
+//A C++ program using multithreading (std::thread) to update and display data. 
+
+//Output showcasing real-time updates and warnings. 
+
+ 
+
+//Code: 
+
+#include <iostream> 
+
+#include<bits/stdc++.h> 
+
+using namespace std; 
+
+  
+
+class VehicleData 
+
+{ 
+
+    private: 
+
+        double speed; 
+
+        int fuel; 
+
+        int engineTemp; 
+
+    public: 
+
+     
+
+        VehicleData(double spd, int fuel, int engTemp) : speed(spd), fuel(fuel), engineTemp(engTemp){}; 
+
+         
+
+        void updateVehicleData() 
+
+        { 
+
+            random_device rd; 
+
+            mt19937 gen(rd()); 
+
+            uniform_int_distribution<> speedDist(0, 150); 
+
+            uniform_int_distribution<> fuelPercentage(0,100); 
+
+            uniform_int_distribution<> engineTempPercentage(70,120); 
+
+             
+
+            speed = speedDist(gen); 
+
+            fuel = fuelPercentage(gen); 
+
+            engineTemp = engineTempPercentage(gen); 
+
+             
+
+  
+
+        } 
+
+         
+
+        double getSpeed() 
+
+        { 
+
+            return speed; 
+
+        } 
+
+        int getFuel() 
+
+        { 
+
+            return fuel; 
+
+        } 
+
+        int getEngineTemp() 
+
+        { 
+
+            return engineTemp; 
+
+        } 
+
+  
+
+}; 
+
+  
+
+class Display 
+
+{ 
+
+  
+
+    public: 
+
+         
+
+        void display(VehicleData& data) 
+
+        { 
+
+            cout<<"Vehicle Details:\n" 
+
+                <<"Speed: "<<data.getSpeed()<<" km/h"<<", Fuel: "<<data.getFuel()<<" %"<<", Engine Temperature: "<<data.getEngineTemp()<<"%"<<endl; 
+
+                 
+
+            if(data.getEngineTemp() > 100) 
+
+            { 
+
+                cout<<" !...Warning...! High Engine Temperature"<<endl; 
+
+            } 
+
+            if(data.getFuel() < 10) 
+
+            { 
+
+                cout<<"!...Warning...! Fuel level is below 10%"<<endl; 
+
+            } 
+
+        } 
+
+         
+
+}; 
+
+  
+
+void updateDataThread(VehicleData &vdata) 
+
+{ 
+
+    while(true) 
+
+    { 
+
+        vdata.updateVehicleData(); 
+
+        this_thread::sleep_for(chrono::seconds(1)); 
+
+    } 
+
+} 
+
+  
+
+void displayThreadData(VehicleData& vdata, Display& show) 
+
+{ 
+
+    while(true) 
+
+    { 
+
+        show.display(vdata); 
+
+        this_thread::sleep_for(chrono::seconds(1)); 
+
+    } 
+
+} 
+
+  
+
+  
+
+int main() 
+
+{ 
+
+   VehicleData vdata(100,90,79); 
+
+   Display display1; 
+
+    
+
+   thread updateThread(updateDataThread, ref(vdata)); 
+
+   thread displayThread(displayThreadData, ref(vdata), ref(display1)); 
+
+    
+
+   updateThread.join(); 
+
+   displayThread.join(); 
+
+    
+
+    return 0; 
+
+} 
+
+ 
